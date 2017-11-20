@@ -1,0 +1,17 @@
+﻿@Html.Partial("/Book/PartialList", Model)
+
+<table border="1" width="100">
+    <tr>
+        <td colspan="3"> Book Name </td>
+    </tr>
+
+    @foreach (Book book in Model)
+    {
+    <tr class="bookClazzz" bookId="@book.ID">
+        <td>@book.BookName </td>
+        <td>@Html.ActionLink("Edit", "EditBook", "Book", new { bookId = book.ID }, null)</td>
+        <td><a href="#" class="delete-book" bookId="@book.ID">Delete</a></td>
+    </tr>
+    }
+    <div>@Html.ActionLink("Add", "Add", "Book", null)</div>
+</table>

@@ -1,0 +1,29 @@
+﻿@using DemoMVC.Models;
+@model IEnumerable<DemoMVC.Models.Book>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List</h2>
+
+<div><table border="1" width="100">
+    <tr>
+        <td colspan="3"> Book Name </td>
+    </tr>
+       
+    @foreach (Book book in Model)
+    {
+        <tr>
+            <td>@book.BookName </td>
+            <td>@Html.ActionLink("Edit", "EditBook", "Book", new { bookId= book.ID}, null)|</td>
+            <td> @Html.ActionLink("Delete", "DeleteBook", "Book", new { bookId = book.ID }, null)</td>
+        </tr>
+    }
+</table>
+    </div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -1,0 +1,74 @@
+﻿@model IList<DemoMVC.Models.Book> 
+@using DemoMVC.Models;
+
+
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List</h2>
+<div>
+    <input type="type" id="scrf" onkeyup="indentitySearchVal()" value=""/>
+    <a href="#" id="srct" class="btn btn-primary">Искать</a>
+</div>
+
+<div>
+
+<!--<table border="1" width="100">
+    <tr>
+        <td colspan="3"> Book Name </td>
+    </tr>
+       
+    @foreach (Book book in Model)
+    {
+        <tr class="bookClazzz" bookId="@book.ID">
+            <td>@book.BookName </td>
+            <td>@Html.ActionLink("Edit", "EditBook", "Book", new { bookId = book.ID }, null)</td>
+            <td><a href="#" class="delete-book" bookId="@book.ID">Delete</a></td>
+        </tr>
+    }
+    <div>@Html.ActionLink("Add", "Add", "Book", null)</div>
+</table>
+-->
+@{Html.RenderPartial("MyList", Model)}
+
+    </div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script>
+    function indentitySearchVal() {
+        var path = "/Book/findBooks";
+        $("#srct").attr("href", path + $("#scrf").val());
+    }
+
+    $(".bookClazzz").click(function (e) {
+        var bookId = $(this).attr('bookId');
+    })
+
+    $(".delete-book").click(function (e) {
+        var id = $(this).attr('bookId');
+
+        $.ajax({
+            type: "POST",
+            url: "/Book/DeleteBook",
+            data: {
+                bookId: id
+            },
+            async: true,
+            success: function (result) {
+            var message = "book is incorrect"
+                switch (result) {
+                    case '1': message = "Book has been succesufully deleter!"; location.reload();  break;
+                    case '2': message = "Book has not been succ"; break;
+            }
+                alert(message);
+                
+            }
+        })
+    })
+</script>
