@@ -61,7 +61,7 @@ namespace DemoMVC.DataAccess
         public IList<Book> search(string name) {
             IList<Book> books = new List<Book>();
             foreach (Book book in _books) {
-                if(name == book.BookName) {
+                if(book.BookName.Contains(name)) {
                     books.Add(book);
                 }
             }

@@ -1,52 +1,20 @@
-﻿@model IEnumerable<DemoMVC.Models.Book>
+﻿@model IList<DemoMVC.Models.Book>
+@using DemoMVC.Models;
 
-@{
-    ViewBag.Title = "FindBook";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h2>FindBook</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+<table border="1" width="100">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Author)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BookName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsPresent)
-        </th>
-        <th></th>
+        <td colspan="3"> Book Name </td>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Author)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BookName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsPresent)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
+    @foreach (Book book in Model)
+    {
+    <tr class="bookClazzz" bookId="@book.ID">
+        <td>@book.BookName </td>
+        <td>@Html.ActionLink("Edit", "EditBook", "Book", new { bookId = book.ID }, null)</td>
+        <td><a href="#" class="delete-book" bookId="@book.ID">Delete</a></td>
     </tr>
-}
-
+    }
+    <div>@Html.ActionLink("Add", "Add", "Book", null)</div>
 </table>
+
+

@@ -10,41 +10,73 @@
 
 <h2>List</h2>
 <div>
-    <input type="type" id="scrf" onkeyup="indentitySearchVal()" value=""/>
+    <input type="type" id="scrf" value=""/>
     <a href="#" id="srct" class="btn btn-primary">Искать</a>
+</div>
+<div>
+    <input type="button" onclick="readCookie()" value="readCookie"/>
 </div>
 
 <div>
+    <table id="table" border="1" width="100">
+        <tr>
+            <td colspan="3"> Book Name </td>
+        </tr>
 
-<!--<table border="1" width="100">
-    <tr>
-        <td colspan="3"> Book Name </td>
-    </tr>
-       
-    @foreach (Book book in Model)
-    {
+        @foreach (Book book in Model)
+        {
         <tr class="bookClazzz" bookId="@book.ID">
             <td>@book.BookName </td>
             <td>@Html.ActionLink("Edit", "EditBook", "Book", new { bookId = book.ID }, null)</td>
             <td><a href="#" class="delete-book" bookId="@book.ID">Delete</a></td>
         </tr>
-    }
-    <div>@Html.ActionLink("Add", "Add", "Book", null)</div>
-</table>
--->
-@{Html.RenderPartial("MyList", Model)}
-
-    </div>
-
+        }
+        <div>@Html.ActionLink("Add", "Add", "Book", null)</div>
+    </table>
+</div>
+<div>
+    <button  id="return">return</button>
+</div>
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
 <script>
-    function indentitySearchVal() {
-        var path = "/Book/findBooks";
-        $("#srct").attr("href", path + $("#scrf").val());
+    function readCookie() {
+        var vak = '';
+        var name = "basket";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                alert(c.substring(name.length+1, c.length));
+            }
+        }
     }
+
+
+    $("#srct").click(function (e){
+        var searchParameter = $("#scrf").val();
+        alert(searchParameter);
+        $.ajax({
+            type: "GET",
+            url: "/Book/Search",
+            data: {
+                searchParameter: searchParameter
+            },
+            async: true,
+            success: function (searchParameter) {
+                var div = $("#table").parent();
+                div.empty();
+                div.html(searchParameter);
+            }
+        })
+    })
+
 
     $(".bookClazzz").click(function (e) {
         var bookId = $(this).attr('bookId');

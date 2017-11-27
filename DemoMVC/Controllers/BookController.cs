@@ -14,12 +14,34 @@ namespace DemoMVC.Controllers
         private BookContext db = new BookContext();
         public ActionResult List()
         {
-            return View();
+            SetCookieIfNotExist();       
+            return View(db.bookRepozitory.findAll());
         }
 
-        public ActionResult JustList() {
-            return 
+        private void SetCookieIfNotExist()
+        {
+            HttpCookie basket = Request.Cookies["basket"];
+            if (basket == null)
+            {
+                Response.Cookies["basket"].Value = "Microsoft forever!";
+
+                Response.Cookies["basket"].Expires = DateTime.Now.AddDays(1);
+            }
         }
+
+        [HttpGet]
+        public ActionResult findBook(string name)
+        {
+            return View("List",db.bookRepozitory.search(name));
+        }
+
+        [HttpGet]
+        public ActionResult Search(string searchParameter)
+        {
+            return View(db.bookRepozitory.search(searchParameter));
+        }
+
+
         [HttpGet]
         public ActionResult Add()
         {
@@ -63,16 +85,6 @@ namespace DemoMVC.Controllers
         public ActionResult ErrorBook()
         {
             return PartialView();
-        }
-
-        [HttpGet]
-        public ActionResult findBooks(string par) {
-            return RedirectToAction("List", db.bookRepozitory.search(par));
-        }
-
-        public ActionResult searchedList(IList<Book> books)
-        {
-            return View(books);
         }
 
         [HttpPost]

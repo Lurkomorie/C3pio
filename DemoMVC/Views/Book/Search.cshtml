@@ -1,6 +1,11 @@
-﻿@Html.Partial("/Book/PartialList", Model)
+﻿@model IEnumerable<DemoMVC.Models.Book>
+@using DemoMVC.Models;
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-<table border="1" width="100">
+<table id="table" border="1" width="100">
     <tr>
         <td colspan="3"> Book Name </td>
     </tr>
@@ -15,3 +20,4 @@
     }
     <div>@Html.ActionLink("Add", "Add", "Book", null)</div>
 </table>
+
